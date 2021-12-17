@@ -31,7 +31,7 @@ func (a *API) PushToPublisher(name, body string) {
 		false,
 		false,
 		amqp.Publishing{
-			ContentType: "text/json",
+			ContentType: "text/plain",
 			Body:        []byte(body),
 		},
 	)
