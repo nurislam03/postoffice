@@ -60,9 +60,19 @@ func (a *API) register() {
 }
 
 func (a *API) registerRouter() {
-	a.router.Route("/api/v1", func(r chi.Router) {
+	a.router.Route("/", func(r chi.Router) {
+		r.Mount("/callback", a.callbackHandlers())
 		r.Mount("/system", a.systemHandlers())
 	})
+}
+
+func (a *API) callbackHandlers() http.Handler {
+	h := chi.NewRouter()
+	h.Group(func(r chi.Router) {
+		r.Post("/", a.Callback)
+	})
+
+	return h
 }
 
 func (a *API) systemHandlers() http.Handler {
