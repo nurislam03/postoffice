@@ -10,6 +10,7 @@ import (
 
 // Config ...
 type Config struct {
+	AMQP       *AMQP
 }
 
 func loadConfig() {
@@ -25,6 +26,7 @@ func NewConfig() *Config {
 	configOnce.Do(func() {
 		loadConfig()
 		config = &Config{
+			AMQP:       AMQPCnf(),
 		}
 	})
 	return config

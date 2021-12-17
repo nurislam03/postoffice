@@ -5,6 +5,7 @@ import (
 	"github.com/nurislam03/postoffice/api"
 	"github.com/nurislam03/postoffice/backend"
 	"github.com/nurislam03/postoffice/config"
+	"github.com/nurislam03/postoffice/conn"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"net"
@@ -37,7 +38,10 @@ func init() {
 func serve(cmd *cobra.Command, args []string) {
 	cfg := config.NewConfig()
 
-	api := api.NewAPI(cfg)
+	//Connection
+	amqpServer := conn.AMQPServer(cfg.AMQP)
+
+	api := api.NewAPI(cfg, amqpServer)
 
 	backend.NewServer(cfg, api).Serve()
 }
