@@ -1,8 +1,8 @@
 package api
 
 import (
-	"log"
 	"net/http"
+	"strconv"
 )
 
 type callbackPld struct {
@@ -37,7 +37,7 @@ func (a *API) Callback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, v := range body.ObjectIds {
-		log.Print(v) // todo remove
+		a.PushToPublisher("get-status", strconv.FormatInt(v, 10))
 	}
 
 	resp := response{

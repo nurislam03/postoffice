@@ -33,7 +33,6 @@ func NewAPI(cfg *config.Config, amqp *amqp.Connection) *API {
 var logger = logrus.New()
 
 func init() {
-	//logger.SetLevel(logrus.DebugLevel)
 	SetLogLevel()
 }
 
