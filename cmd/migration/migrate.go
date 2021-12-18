@@ -8,14 +8,14 @@ import (
 	"log"
 )
 
-var UpCmd = &cobra.Command{
-	Use:   "up",
+var MigrateCmd = &cobra.Command{
+	Use:   "migrate",
 	Short: "Migrate Postgres DB",
 	Long:  `Migrate Postgres DB`,
-	Run:   up,
+	Run:   migrate,
 }
 
-func up(cmd *cobra.Command, args []string) {
+func migrate(cmd *cobra.Command, args []string) {
 	cfg := config.NewConfig()
 	pgCnn := conn.PostgresServer(cfg.PostgresDB)
 

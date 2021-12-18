@@ -22,7 +22,7 @@ func init() {
 	// cobra.OnInitialize(initConfig)
 	// RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "config.yml", "config file")
 	viper.AutomaticEnv()
-	RootCmd.AddCommand(migrationcmd.UpCmd)
+	RootCmd.AddCommand(migrationcmd.MigrateCmd)
 }
 
 func initConfig() {
