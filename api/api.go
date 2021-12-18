@@ -3,6 +3,8 @@ package api
 import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/nurislam03/postoffice/config"
+	"github.com/nurislam03/postoffice/repo"
+	"github.com/streadway/amqp"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -11,15 +13,19 @@ import (
 
 // API ...
 type API struct {
-	router   chi.Router
-	cfg      *config.Config
+	router     chi.Router
+	cfg        *config.Config
+	amqpServer *amqp.Connection
+	sRepo      repo.StatusRepo
 }
 
 // NewAPI ...
-func NewAPI(cfg *config.Config) *API {
+func NewAPI(cfg *config.Config, amqp *amqp.Connection, sRepo repo.StatusRepo) *API {
 	api := &API{
-		router:   chi.NewRouter(),
-		cfg:      cfg,
+		router:     chi.NewRouter(),
+		cfg:        cfg,
+		amqpServer: amqp,
+		sRepo:      sRepo,
 	}
 
 	api.register()
@@ -30,7 +36,6 @@ func NewAPI(cfg *config.Config) *API {
 var logger = logrus.New()
 
 func init() {
-	//logger.SetLevel(logrus.DebugLevel)
 	SetLogLevel()
 }
 
@@ -60,9 +65,19 @@ func (a *API) register() {
 }
 
 func (a *API) registerRouter() {
-	a.router.Route("/api/v1", func(r chi.Router) {
+	a.router.Route("/", func(r chi.Router) {
+		r.Mount("/callback", a.callbackHandlers())
 		r.Mount("/system", a.systemHandlers())
 	})
+}
+
+func (a *API) callbackHandlers() http.Handler {
+	h := chi.NewRouter()
+	h.Group(func(r chi.Router) {
+		r.Post("/", a.Callback)
+	})
+
+	return h
 }
 
 func (a *API) systemHandlers() http.Handler {

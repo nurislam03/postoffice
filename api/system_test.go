@@ -9,10 +9,10 @@ import (
 )
 
 func TestSystemCheck(t *testing.T) {
-	api := NewAPI(nil)
+	api := NewAPI(nil, nil, nil)
 
 	t.Run("system check", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/system/check", nil)
+		req := httptest.NewRequest(http.MethodGet, "/system/check", nil)
 		res := httptest.NewRecorder()
 		api.router.ServeHTTP(res, req)
 		assert.Equal(t, http.StatusOK, res.Code)
@@ -21,10 +21,10 @@ func TestSystemCheck(t *testing.T) {
 }
 
 func TestSystemPanic(t *testing.T) {
-	api := NewAPI(nil)
+	api := NewAPI(nil, nil, nil)
 
 	t.Run("system panic", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/system/panic", nil)
+		req := httptest.NewRequest(http.MethodGet, "/system/panic", nil)
 		res := httptest.NewRecorder()
 		api.router.ServeHTTP(res, req)
 		assert.Equal(t, http.StatusInternalServerError, res.Code)
@@ -33,10 +33,10 @@ func TestSystemPanic(t *testing.T) {
 }
 
 func TestSystemErr(t *testing.T) {
-	api := NewAPI(nil)
+	api := NewAPI(nil, nil, nil)
 
 	t.Run("system err", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/system/err", nil)
+		req := httptest.NewRequest(http.MethodGet, "/system/err", nil)
 		res := httptest.NewRecorder()
 		api.router.ServeHTTP(res, req)
 		assert.Equal(t, http.StatusInternalServerError, res.Code)
@@ -45,10 +45,10 @@ func TestSystemErr(t *testing.T) {
 }
 
 func TestSystemValidationErr(t *testing.T) {
-	api := NewAPI(nil)
+	api := NewAPI(nil, nil, nil)
 
 	t.Run("system validation err", func(t *testing.T) {
-		req := httptest.NewRequest(http.MethodGet, "/api/v1/system/verr", nil)
+		req := httptest.NewRequest(http.MethodGet, "/system/verr", nil)
 		res := httptest.NewRecorder()
 		api.router.ServeHTTP(res, req)
 		assert.Equal(t, http.StatusUnprocessableEntity, res.Code)

@@ -10,6 +10,8 @@ import (
 
 // Config ...
 type Config struct {
+	AMQP       *AMQP
+	PostgresDB *PostgresDB
 }
 
 func loadConfig() {
@@ -25,6 +27,8 @@ func NewConfig() *Config {
 	configOnce.Do(func() {
 		loadConfig()
 		config = &Config{
+			AMQP:       AMQPCnf(),
+			PostgresDB: PostgresCnf(),
 		}
 	})
 	return config
