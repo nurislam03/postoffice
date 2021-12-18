@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/nurislam03/postoffice/config"
+	"github.com/nurislam03/postoffice/repo"
 	"github.com/streadway/amqp"
 	"net/http"
 
@@ -12,17 +13,19 @@ import (
 
 // API ...
 type API struct {
-	router   chi.Router
-	cfg      *config.Config
+	router     chi.Router
+	cfg        *config.Config
 	amqpServer *amqp.Connection
+	sRepo      repo.StatusRepo
 }
 
 // NewAPI ...
-func NewAPI(cfg *config.Config, amqp *amqp.Connection) *API {
+func NewAPI(cfg *config.Config, amqp *amqp.Connection, sRepo repo.StatusRepo) *API {
 	api := &API{
-		router:   chi.NewRouter(),
-		cfg:      cfg,
+		router:     chi.NewRouter(),
+		cfg:        cfg,
 		amqpServer: amqp,
+		sRepo:      sRepo,
 	}
 
 	api.register()

@@ -11,6 +11,7 @@ import (
 // Config ...
 type Config struct {
 	AMQP       *AMQP
+	PostgresDB *PostgresDB
 }
 
 func loadConfig() {
@@ -27,6 +28,7 @@ func NewConfig() *Config {
 		loadConfig()
 		config = &Config{
 			AMQP:       AMQPCnf(),
+			PostgresDB: PostgresCnf(),
 		}
 	})
 	return config

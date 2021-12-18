@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/nurislam03/postoffice/config"
 	"github.com/nurislam03/postoffice/conn"
+	"github.com/nurislam03/postoffice/repo/pgrepo"
 	cwrkr "github.com/nurislam03/postoffice/worker"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -45,9 +46,12 @@ func worker(cmd *cobra.Command, args []string) {
 func startWorker(count int) {
 	cfg := config.NewConfig()
 
+	pgCnn := conn.PostgresServer(cfg.PostgresDB)
+	sRepo := pgrepo.NewStatus(pgCnn)
+
 	//connection
 	amqpServer := conn.AMQPServer(cfg.AMQP)
-	wrkr := cwrkr.NewWorker(amqpServer)
+	wrkr := cwrkr.NewWorker(amqpServer, sRepo)
 
 	wrkr.Run(count)
 }

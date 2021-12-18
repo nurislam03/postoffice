@@ -1,4 +1,4 @@
-package tester_service
+package services
 
 import (
 	"github.com/nurislam03/postoffice/pkg/testerclient"

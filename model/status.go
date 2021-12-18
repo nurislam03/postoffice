@@ -7,3 +7,7 @@ type Status struct {
 	Online   bool      `json:"online"`
 	LastSeen time.Time `json:"last_seen"`
 }
+
+func (s *Status) TableName() string {
+	return "status"
+}
