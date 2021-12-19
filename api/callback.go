@@ -13,7 +13,7 @@ func (c *callbackPld) validate() *validationError {
 	errV := validationError{}
 
 	if len(c.ObjectIds) <= 0 {
-		errV.add("object_ids", "are required") //Todo: ask - minimum length of object id
+		errV.add("object_ids", "are required")
 	}
 
 	if len(errV) > 0 {
